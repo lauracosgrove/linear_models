@@ -10312,3 +10312,33 @@ fit %>%
 ```
 
 ### Diagnostics
+
+``` r
+modelr::add_residuals(nyc_airbnb, fit) %>% 
+  ggplot(aes(x = stars, y = resid)) + geom_point()
+## Warning: Removed 9962 rows containing missing values (geom_point).
+```
+
+<img src="linear_models_files/figure-markdown_github/unnamed-chunk-9-1.png" width="90%" />
+
+``` r
+
+
+nyc_airbnb %>% 
+  modelr::add_residuals(fit) %>% 
+  ggplot(aes(x = stars, y = resid)) + geom_point()
+## Warning: Removed 9962 rows containing missing values (geom_point).
+```
+
+<img src="linear_models_files/figure-markdown_github/unnamed-chunk-9-2.png" width="90%" />
+
+``` r
+
+
+nyc_airbnb %>% 
+  modelr::add_predictions(fit) %>% 
+  ggplot(aes(x = stars, y = pred, color = boro)) + geom_point()
+## Warning: Removed 9962 rows containing missing values (geom_point).
+```
+
+<img src="linear_models_files/figure-markdown_github/unnamed-chunk-9-3.png" width="90%" />
