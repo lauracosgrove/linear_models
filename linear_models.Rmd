@@ -17,3 +17,54 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 ```
 
 ## Examples
+
+```{r}
+library(tidyverse)
+library(p8105.datasets)
+
+set.seed(1)
+```
+
+
+Look at Airbnb data ...
+
+```{r}
+data("nyc_airbnb")
+
+nyc_airbnb = 
+  nyc_airbnb %>% 
+  mutate(stars = review_scores_location / 2) %>% 
+  rename(boro = neighbourhood_group,
+         neighborhood = neighbourhood) %>% 
+  filter(boro != "Staten Island") %>% 
+  select(price, stars, boro, neighborhood, room_type)
+```
+
+
+Fit a model for price as an outcome.
+
+```{r}
+fit = lm(price ~ stars + boro, data = nyc_airbnb)
+```
+
+Look at some summaries.
+
+```{r}
+summary(fit)
+summary(fit)$coef
+coef(fit)
+fitted.values(fit)
+```
+
+Look at better summaries.
+
+```{r}
+broom::tidy(fit)
+
+fit %>% 
+  broom::tidy() %>% 
+  select(term, estimate, p.value) %>% 
+  mutate(term = str_replace(term, "^boro", "Boro: ")) %>% 
+  knitr::kable(digits = 3)
+```
+
